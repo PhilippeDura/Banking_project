@@ -1,0 +1,14 @@
+{% extends "base_boot.html" %}
+{% block title %}
+    <span style="color:red">The password admin is incorrect or doesn't exist, please enter a valid password</span>
+{% endblock %}
+{% block body %}
+<form method='POST'>
+    <div  class="form-group" >
+        <label for="password_check_admin">Password (5 characters minimum):</label>
+        <input class="form-control" id="password_check_admin" placeholder="password" name="password_admin" type="password" minlength="5" required>
+        <div id="div_input_check_pwd_admin" style="display:none"><span style="color:red">Please enter a password</span></div>
+    </div>
+    <button type="submit" id="button_check_admin" onclick="FunctionToCheckAdmin()" class="btn btn-primary">login</button>
+</form>
+{% endblock %}

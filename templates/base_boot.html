@@ -1,0 +1,40 @@
+<!doctype html><!-- la template commune à toute les pages html-->
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- bootstrap permettant de rendre les pages responsive-->
+
+    <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="{{ url_for('static',filename='style/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous"><!-- ici on charge tout ce qui est mise en forme css et bootstrap-->
+    <link rel="stylesheet" href="{{ url_for('static',filename='style/button_css.css') }}">
+    <title>{% block head_title %}{% endblock %}</title>
+  </head>
+  <body>
+
+    <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <h1>{% block title %}{% endblock %}</h1>
+                {% block body %}{% endblock %}</div>
+            <div class="col-md-2"></div>
+        </div>
+
+        <hr/>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script type="text/javascript" src="{{ url_for('static',filename='script/jquery-3.4.1.js') }}"></script><!-- ici on charge du jquery-->
+     <script type="text/javascript" src="{{ url_for('static', filename='script/popper.min.js') }}"></script> <!-- copie du fichier popper.min en ligne ci dessous-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script><!-- on charge du js (popper, module de js qui permert de gérer les popper(bulle d'information qui apparaît lorque que l'on survole avec la souris))-->
+    <script type="text/javascript" src="{{ url_for('static', filename='script/boostrap.min.js') }}"></script> <!-- fait le lien avec la version boostrap min de la copie du fichier en ligne du dessous-->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script><!-- ici on charge du js utilisé dans bootstrap-->
+   <script type="text/javascript" src="{{ url_for('static',filename='script/button_javascript.js') }}"></script>
+  </body>
+</html>

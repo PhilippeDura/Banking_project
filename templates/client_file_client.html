@@ -1,0 +1,106 @@
+{% extends "base_boot.html" %} <!--signifie qu'il hérite de base_boot dans lequel il injectera le contenu de client_file-->
+
+{% block title %}CLIENT FILE{% endblock %} <!-- les blocks (ici title) sont des repaires qui ont leur correspondance dans base_boot
+                                                 dans lesquel injecte tout le contenu (jusqu'au endblock) -->
+{% block body %}<!-- les blocks (ici body) sont des repaires qui ont leur correspondance dans base_boot
+                                                 dans lesquel injecte tout le contenu (jusqu'au endblock) -->
+
+<h2>{{ client.firstname }} {{ client.lastname }}</h2> <!-- les doubles accolades signifie qu'on injecte de la donnée extérieur référencé par la variable client ici on injecte les valeurs des ses attributs firstname et lastname -->
+
+<hr/>
+<div class="principal">
+<h3>Accounts list
+    <div class="btn-group btn-group-sm" role="group">
+      <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <!-- apparement les attributs de balise  data-toggle(toggle= basculer ici dropdown=
+                                                                                       menu déroulant) aria-haspopup(autorise l'affichage du menu contextuel)
+                                                                                       et aria-expanded (qui étend ou non l'affichge des sous-listes ici à false= n'affiche que
+                                                                                       le 1er niveau) sont du bootstrap qui cible du css-->
+
+        Add account
+      </button>
+      <div class="dropdown-menu" aria-labelledby="btnGroupDrop1"> <!-- class= "dropdown-menu" fait référence à du bootstrap qui une fois injecter dans base_boot prendra forme grace à la balise link contenu dans le fichier base_boot. Aria-labelledby attribut un id ici à l'élement div en cours -->
+        <a class="dropdown-item" href="{{ url_for('add_account',
+        token=client.token, type=1) }}">Debit account</a> <!-- class= "dropdown-item" fait référence à du bootstrap qui une fois injecter dans base_boot prendra forme grace à la balise link contenu dans le fichier base_boot.-->
+        <a class="dropdown-item" href="{{ url_for('add_account',
+        token=token, type=2) }}">Saving account</a>
+      </div>
+
+    </div>
+    <div class="btn-group btn-group-sm" role="group">
+      <button id="btnGroupDrop" type="button" class="btn btn-secondary dropdown-toggle"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Del account
+      </button>
+      <div class="dropdown-menu" aria-labelledby="btnGroupDrop">
+
+        <a class="dropdown-item" href="{{ url_for('delete_account_client',
+        token=token) }}">Delete an account</a>
+      </div>
+
+    </div>
+     </h3></div>
+     <div class="button_cont" align="center">
+    <a class="example_a" href="{{ url_for('welcome_home') }}"  rel="nofollow noopener">Home page</a>
+</div>
+
+
+    {% if error is defined %} <!-- ici si la variable error existe vérifié avec le code "defined" (voir le render template avec la variable error correspondante dans le controller) -->
+    <div class="alert alert-danger" role="alert"> <!-- class="alert alert-danger" fait référence à du boostrap, role="alert" reçois un msg d'erreur générer par le navigateur apparaissant dans un pop up (si évidemment on rentre dans la condition) -->
+        {{ error }} <!-- on affiche l'error (voir le render template avec la variable error correspondante dans le controller) -->
+    </div>
+    {% endif %}
+<form method='POST'>
+<table class="table"> <!-- balise table crée une zone tableau -->
+    <thead>           <!-- définit l'entête du tableau-->
+        <tr>           <!-- (table raw) définit une ligne du tableau ici dans l'entête-->
+            <th scope="col">Type</th> <!-- (table head != de thead) définit une céllule d'entête le sope="col" lui attribut une colonne -->
+            <th scope="col">Account number</th>
+            <th scope="col">Rate</th>
+            <th scope="col">Balance</th>
+            <th scope="col">Change balance</th>
+            <th scope="col" >Total
+            </th>
+
+        </tr>
+    </thead>
+    <tbody><!-- le corps du tableau qui va recevoir la datat-->
+        {% for account in accounts %} <!-- ici on itère dans la liste accounts(attribut de client, voir le render template contenant client) account sera du type debit_account ou saving_account (les types contenu dans accounts)-->
+        <tr>
+            <th scope="row"><a href="#">{{ account.get_type_name }}</a></th><!-- scope="row" crée une ligne, a href="#" raffraichit la page au moment de cliquer sur la nom de l'account, {{ account.get_type_name }}= on injecte à l'intérieur de la balise le type d'account (cliquable) (ce th fait office de 1ère cellule)-->
+            <td>{{ account.number }}</td><!-- td "table data" cellule qui va recevoir la donnée(ici elle font office des autres cellules au nombre de 4 plus la th du dessus font 5), {{ account.number }}= on injecte et affiche l'attribut number de l'account(se siuant dans la mère BankAccount voir model)-->
+            <td>
+                {% if account.rate is defined %}<!-- si le rate (attribut de savingAccount) de l'account exite-->
+                    {{ account.rate*100 }} <!-- on multiplie par 100 son résultat-->
+                {% endif %}
+            </td>
+            <td>{{ account.get_account_balance() }}</td><!-- ici on injecte le resultat de la balance dans l'objet en cours (account qui représente soit debit soit saving account)-->
+            <td>
+            <form class="form-inline" method='POST'><!-- class="form-inline boostrap modifiant l'affichage du formulaire pour qu'il apparaisse sur la même ligne-->
+                <input type="hidden" value="{{ account.number }}" name="account_number"><!-- ici on crée une zone de saisie cachée qu'on envois au formulaire ayant pour valeur account.number, on le cache pour éviter toute modification-->
+                <div class="btn-group" role="group"><!-- class="btn-group"  fait référence à du boostrap qui groupe des boutons ensembles, role="group" boostrap est utlisé pour identifier un ensemble d'objets de l'interface utlisateur et qui ne sont pas destinés à être intégrer à une table de contenue (comme un tableau) ou une page récapitulative-->
+                    <input type="text" class="form-control" size="6" placeholder="0.00" name="amount"><!-- class="form-control" = bootstrap qui permet de configurer le comportement de la zone de saisie-->
+                    <button type="submit" class="event_amount btn btn-success mb-1" value="credit" name="action">+</button> <!-- class="btn btn-success mb-1"= bootstrap (btn tn-success)= modilifie l'affichage du boutton, (mb-1)= règle le margin et le paddin du boutton à 1 quart de la taille de police-->
+                    {% if account.rate is not defined %}<!-- si l'attribut rate de l'account(objet courant) n'est pas définit-->
+                        <button type="submit" class="event_amount  btn btn-danger mb-1" value="debit" name="action">-</button><!--  class="btn btn-danger mb-1"=boostrap (btn btn-danger)= définit l'apparence du boutton, mb-1 voir au dessus-->
+                    {% else %}
+                    <button type="submit" class="event_amount  btn btn-warning mb-1" value="interest" name="action">$</button><!-- class="btn btn-warning mb-1"= bootstrap voir au dessus, value fait référence "interest" dans  la condition du controller ( if request.form['action'] == 'interest')-->
+                    {% endif %}
+                </div>
+            </form>
+            </td>
+        </tr>
+        {% endfor %}
+     <tr>
+
+        <td></td><td></td><td></td><td></td><td></td><td> <input type="text" readonly class="form-control" size="6" placeholder="0.00" name="amount" value={{ name }}></td>
+    </tr>
+    </tbody>
+
+</table>
+
+</form>
+
+<a href="{{ url_for('welcome_home') }}" style="color: grey">Back to home</a><!-- ancre dans laquelle on injecte l'url home(définit dans la main), on revient à la page home-->
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base_boot.html" %}
+{% block title %}
+    Admin <span style="color:red">you're not the owner of this account, please enter a valid number account</span>
+{% endblock %}
+{% block body %}
+<form method='POST'>
+    <div class="form-group"><!-- class="form-group"= bootstrap qui permet de créer un groupe dans le formulaire dans lesquel on mettera des objet-->
+        <input class="form-control" id="input_delete_account" placeholder="please enter a number" name="number">
+    </div><div id="div_empty_number" style="display:none"><span style="color:red">it's not a number account</span></div>
+    <div id="div_wrong_number" style="display:none"><span style="color:red"> there's no number of an account </span></div>
+   <div id="div_list"><ul class="my_list">
+    <li style="list-style: none">
+    <button  type="submit" id="delbtn" class="btn btn-primary" onclick=" MyFunctionCheckButtonDeleteAccount">Delete</button></li>
+    <li style="list-style: none"> <a href="{{ url_for('welcome_home') }}" style="color:grey">Back to the login page</a></li></ul>
+
+    <a class="example_a" href="{{ url_for('home_admin') }}" target="_blank" rel="nofollow noopener" id="button_home_page">Client list</a>
+</div>
+
+</form>
+{% endblock %}

@@ -1,0 +1,82 @@
+.principal /* class div dans le fichier HTML client_file et client_file_client*/
+{
+float: left;
+}
+
+
+.button_cont{     /* class de div dans fichier HTML cleint_file et client_file_client*/
+float: left;
+
+margin-top: -16px;
+}
+
+.btn-primary{
+float: left;
+}
+
+
+
+.example_a {
+color: #fff !important;
+text-transform: uppercase;
+text-decoration: none;
+background: #ed3330;
+padding: 20px;
+border-radius: 5px;
+display: inline-block;
+border: none;
+transition: all 0.4s ease 0s;
+
+}
+
+.example_a:hover {
+background: #434343;
+letter-spacing: 1px;
+-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
+transition: all 0.4s ease 0s;
+}
+
+.example_a{
+
+  background: red;
+  position: relative;
+  -webkit-animation: mymove 5s infinite;
+  -webkit-animation-delay: 10s;
+  animation: mymove 5s infinite;
+  animation-delay: 3s;
+}
+
+
+.add_client{
+
+float: left;
+}
+
+.del_client{
+    float: left;
+    margin-left: 150px;
+
+}
+.my_list {
+    display: inline-grid;
+}
+#div_list{
+    margin-left: -40px;
+}
+#btn_home_page{
+float: left;
+}
+
+/* Chrome, Safari, Opera */
+ @-webkit-keyframes mymove {
+  from {left: 10vw;}
+  to {left: 30vw;}
+}
+
+@keyframes mymove {
+  from {left: 10vw;}
+  to {left: 30vw;}
+}
+
